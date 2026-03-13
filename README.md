@@ -50,10 +50,12 @@ Database (H2)
 ```
 src
  ├── config
- │      └── Security 
- │             └── AuthorizationServerConfig
- │             └── ResourceServerConfig
- │             └── SecurityConfig
+ │     └── Security 
+ │            └── AuthorizationServerConfig
+ │            └── ResourceServerConfig
+ │            └── SecurityConfig
+ │     └── RabbitMQConfig
+ │     └── DatabaseInit
  │     └── OpenApiConfig
  │
  ├── controller
@@ -70,14 +72,24 @@ src
  │
  ├── dto
  │     └── ClienteDTO
+ │     └── ClienteResumo
  │
  ├── messaging
+ │     └── event
+ │            └── ClienteCriadoEvent
  │     └── producer
+ │            └── ClienteProducer  
  │     └── consumer
+ │            └── ClienteProducer
+ │
+ ├── mapper
+ │     └── ClienteMapper
  │
  └── exception
-       └── GlobalExceptionHandler
+       └── config 
+              └── GlobalExceptionHandler
        └── ClienteNaoEncontradoException
+       └── ErrorResponse
 ```
 
 ---
