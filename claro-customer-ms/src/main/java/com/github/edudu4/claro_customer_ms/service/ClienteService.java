@@ -1,0 +1,49 @@
+package com.github.edudu4.claro_customer_ms.service;
+
+import com.github.edudu4.claro_customer_ms.dto.ClienteDTO;
+import com.github.edudu4.claro_customer_ms.dto.ClienteResumo;
+import com.github.edudu4.claro_customer_ms.entity.Cliente;
+import com.github.edudu4.claro_customer_ms.exception.ClienteNaoEncontradoException;
+import com.github.edudu4.claro_customer_ms.mapper.ClienteMapper;
+import com.github.edudu4.claro_customer_ms.repository.ClienteRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@RequiredArgsConstructor
+@Service
+public class ClienteService {
+    private final ClienteRepository clienteRepository;
+
+    public List<ClienteResumo> listar() {
+        return clienteRepository.findAllProjectedBy();
+    }
+
+    public ClienteDTO buscar(Long id) {
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(ClienteNaoEncontradoException::new);
+        return ClienteMapper.toDto(cliente);
+    }
+
+    public ClienteDTO buscarPorCpf(String cpf) {
+        return clienteRepository.findByCpf(cpf).orElseThrow(ClienteNaoEncontradoException::new);
+    }
+
+    public ClienteDTO criar(ClienteDTO cliente) {
+        Cliente clienteSalvo = clienteRepository.save(ClienteMapper.toEntity(cliente));
+        return ClienteMapper.toDto(clienteSalvo);
+    }
+
+    public ClienteDTO atualizar(ClienteDTO cliente) {
+        if (!clienteRepository.existsById(cliente.getId())) {
+            throw new ClienteNaoEncontradoException();
+        }
+        Cliente clienteAtualizado = clienteRepository.save(ClienteMapper.toEntity(cliente));
+        return ClienteMapper.toDto(clienteAtualizado);
+    }
+
+    public void deletar(Long id) {
+        Cliente cliente = clienteRepository.findById(id).orElseThrow(ClienteNaoEncontradoException::new);
+        clienteRepository.delete(cliente);
+    }
+}
