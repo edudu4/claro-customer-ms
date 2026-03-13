@@ -7,6 +7,7 @@ import com.github.edudu4.claro_customer_ms.exception.ClienteNaoEncontradoExcepti
 import com.github.edudu4.claro_customer_ms.mapper.ClienteMapper;
 import com.github.edudu4.claro_customer_ms.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
+import com.github.edudu4.claro_customer_ms.messaging.producer.ClienteProducer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 public class ClienteService {
     private final ClienteRepository clienteRepository;
+    private final ClienteProducer clienteProducer;
 
     public List<ClienteResumo> listar() {
         return clienteRepository.findAllProjectedBy();
@@ -31,6 +33,7 @@ public class ClienteService {
 
     public ClienteDTO criar(ClienteDTO cliente) {
         Cliente clienteSalvo = clienteRepository.save(ClienteMapper.toEntity(cliente));
+        clienteProducer.enviarClienteCriado(ClienteMapper.toEvent(clienteSalvo));
         return ClienteMapper.toDto(clienteSalvo);
     }
 
