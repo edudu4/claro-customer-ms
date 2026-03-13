@@ -5,9 +5,9 @@ import com.github.edudu4.claro_customer_ms.dto.ClienteResumo;
 import com.github.edudu4.claro_customer_ms.entity.Cliente;
 import com.github.edudu4.claro_customer_ms.exception.ClienteNaoEncontradoException;
 import com.github.edudu4.claro_customer_ms.mapper.ClienteMapper;
+import com.github.edudu4.claro_customer_ms.messaging.producer.ClienteProducer;
 import com.github.edudu4.claro_customer_ms.repository.ClienteRepository;
 import lombok.RequiredArgsConstructor;
-import com.github.edudu4.claro_customer_ms.messaging.producer.ClienteProducer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -38,15 +38,19 @@ public class ClienteService {
     }
 
     public ClienteDTO atualizar(ClienteDTO cliente) {
-        if (!clienteRepository.existsById(cliente.getId())) {
-            throw new ClienteNaoEncontradoException();
-        }
+        validarClienteExiste(cliente.getId());
         Cliente clienteAtualizado = clienteRepository.save(ClienteMapper.toEntity(cliente));
         return ClienteMapper.toDto(clienteAtualizado);
     }
 
     public void deletar(Long id) {
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(ClienteNaoEncontradoException::new);
-        clienteRepository.delete(cliente);
+        validarClienteExiste(id);
+        clienteRepository.deleteById(id);
+    }
+
+    private void validarClienteExiste(Long id) {
+        if (!clienteRepository.existsById(id)) {
+            throw new ClienteNaoEncontradoException();
+        }
     }
 }

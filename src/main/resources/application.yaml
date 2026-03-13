@@ -2,7 +2,11 @@ spring:
   application:
     name: claro-customer-ms
   rabbitmq:
-    host: ${RABBITMQ_HOST}
-    port: ${RABBITMQ_PORT}
-    username: ${RABBITMQ_USERNAME}
-    password: ${RABBITMQ_PASSWORD}
+    host: ${RABBITMQ_HOST:undefined}
+    port: ${RABBITMQ_PORT:0000}
+    username: ${RABBITMQ_USERNAME:undefined}
+    password: ${RABBITMQ_PASSWORD:undefined}
+  security:
+    oauth2:
+      resource:
+        filter-order: 3
