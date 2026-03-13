@@ -1,6 +1,10 @@
 spring:
   application:
     name: claro-customer-ms
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
   rabbitmq:
     host: ${RABBITMQ_HOST:undefined}
     port: ${RABBITMQ_PORT:0000}
