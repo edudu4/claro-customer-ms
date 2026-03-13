@@ -5,6 +5,8 @@ spring:
     console:
       enabled: true
       path: /h2-console
+      settings:
+        web-allow-others: true
   rabbitmq:
     host: ${RABBITMQ_HOST:undefined}
     port: ${RABBITMQ_PORT:0000}
