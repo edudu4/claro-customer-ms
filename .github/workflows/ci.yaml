@@ -46,5 +46,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          file: ./infra/Dockerfile
           push: true
           tags: edudu4/claro-customer-ms:latest
