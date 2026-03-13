@@ -4,10 +4,10 @@ import com.github.edudu4.claro_customer_ms.dto.ClienteDTO;
 import com.github.edudu4.claro_customer_ms.dto.ClienteResumo;
 import com.github.edudu4.claro_customer_ms.service.ClienteService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public class ClienteController {
 
     @PostMapping
     ResponseEntity<ClienteDTO> salvar(@RequestBody @Validated ClienteDTO cliente) {
-        return ResponseEntity.ok(clienteService.criar(cliente));
+        return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.criar(cliente));
     }
 
     @PutMapping
