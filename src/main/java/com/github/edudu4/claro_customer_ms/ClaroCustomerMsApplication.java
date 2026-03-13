@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class ClaroCustomerMsApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(ClaroCustomerMsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ClaroCustomerMsApplication.class, args);
+    }
 }
